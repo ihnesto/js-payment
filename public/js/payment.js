@@ -24,17 +24,12 @@ function getPackets() {
 		url: '/get_packets',
 		success: function(pack) {
 			for(let i = pack.packets.length - 1; i >= 0 ; i--) {
-				 let packetItem = $('<div>').html(pack.packets[i]).addClass('btn btn-outline-info mr-2 my-3');
+				let packetItem = $('<div>').html(pack.packets[i]).addClass('btn btn-outline-info mr-2 my-3');
 				$('.packets').append(packetItem);
 			}
-			$('.sum').click(function() {
+			$('.packets .btn').click(function() {
 				let value = $(this).text();
-				for(var i = 1; i <= value; i++){
-					$('.sum').css('border', '1px solid grey');
-				}
-				$(this).css('border', '2px solid black'); 
-				
-				$('.sum2').val(value);
+				$('#sum').val(value);
 			});
 			check();
 		}
@@ -50,22 +45,20 @@ function check() {
 		let endSum = $('#sum').val();
 		
 		if (endSum.length == 0) {
-			$('.sum2').css("border", "2px solid red"); 
+			$('#sum').css("border", "2px solid red"); 
 			p = false;
 			
 		} else {
-			$('.sum2').css("border", "1px solid lightgrey");
+			$('#sum').css("border", "1px solid lightgrey");
 		} 
 		
 		
 		let telNumber = $('#phone').val();
-		let telPrefix = $('.pref').val();
-		var telephone = '(' + telPrefix + ')' + telNumber;
 		if(telNumber.length == 0) {
-			$('#tel').css("border", "2px solid red"); 
+			$('#phone').css("border", "2px solid red"); 
 			p = false;
 		} else {
-			$('#tel').css("border", "1px solid lightgrey"); 
+			$('#phone').css("border", "1px solid lightgrey"); 
 		}
 		
 		
@@ -73,7 +66,7 @@ function check() {
 		if (p != false) {
 		
 			obj.sum = endSum;
-			obj.telephone = telephone;
+			obj.telephone = telNumber;
 			console.log(obj);
 			$(".container").html('');	
 			getTemplate('card.html');	
@@ -86,13 +79,14 @@ function check() {
 
 function check2(){
 	// Проверка заполненности полей форм второй страницы		
-	$('#NumCard').mask('0000 0000 0000 0000');
-	$('#CVV2').mask('000');	
-	$('.checkout').click(function() {
+	$('#card').mask('0000 0000 0000 0000');
+	$('#cvv').mask('000');	
+	$('#expdate').mask('00/00');	
+	$('#more').click(function() {
 		var p = true;
-		var card = $('#NumCard').val();
+		var card = $('#card').val();
 		if(card.length == 0) {
-			$('#NumCard').css("border", "2px solid red"); 
+			$('#card').css("border", "2px solid red"); 
 			p = false;
 		} else {
 			var newCard = '';
@@ -113,10 +107,10 @@ function check2(){
 				s = s + +newCard[i];	
 			}
 			if (s % 10 != 0) {
-				$('#NumCard').css("border", "2px solid red"); 
+				$('#card').css("border", "2px solid red"); 
 				p = false;
 			} else {
-				$('#NumCard').css("border", "1px solid lightgrey"); 
+				$('#card').css("border", "1px solid lightgrey"); 
 			}
 		}
 		
