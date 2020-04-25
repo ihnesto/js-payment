@@ -6,27 +6,14 @@ function getTemplate(name) {
 	$.ajax({
 		url: '/get_templates/' + name,
 		success: function(data) {
-			$('.main').append(data);
+			$('.container').append(data);
 			if(name == 'phone.html') {
-				$('#tel').mask('000 00 00');
-				$('.sum2').mask('000,00'); 
-				getPrefix();
+				$('#phone').mask('+38(000) 000-00-00');
+				$('#sum').mask('000,00'); 
+				getPackets();
 			} else {
 				check2();
 			}		
-		}
-	});
-}
-
-function getPrefix() {
-	// Получение списка префиксов	
-	$.ajax({
-		url: '/get_prefixes',
-		success: function(pref) {
-			for(let i = 0; i < pref.prefixes.length; i++) {
-				$('.pref').append('<option>' + pref.prefixes[i] + '</option>');
-			}
-			getPackets();
 		}
 	});
 }
@@ -37,8 +24,8 @@ function getPackets() {
 		url: '/get_packets',
 		success: function(pack) {
 			for(let i = pack.packets.length - 1; i >= 0 ; i--) {
-				 let packetItem = $('<div>').html(pack.packets[i]).addClass('sum');
-				$('.amount').after(packetItem);
+				 let packetItem = $('<div>').html(pack.packets[i]).addClass('btn btn-outline-info mr-2 my-3');
+				$('.packets').append(packetItem);
 			}
 			$('.sum').click(function() {
 				let value = $(this).text();
@@ -57,10 +44,10 @@ function getPackets() {
 function check() {
 	// Проверка заполненности полей форм первой страницы
 	let p = true;
-	$('.button').click(function() {
+	$('#more').click(function() {
 		
 		var errors = '';
-		let endSum = $('.sum2').val();
+		let endSum = $('#sum').val();
 		
 		if (endSum.length == 0) {
 			$('.sum2').css("border", "2px solid red"); 
@@ -71,7 +58,7 @@ function check() {
 		} 
 		
 		
-		let telNumber = $('#tel').val();
+		let telNumber = $('#phone').val();
 		let telPrefix = $('.pref').val();
 		var telephone = '(' + telPrefix + ')' + telNumber;
 		if(telNumber.length == 0) {
@@ -88,8 +75,8 @@ function check() {
 			obj.sum = endSum;
 			obj.telephone = telephone;
 			console.log(obj);
-			$(".main").html('');	
-			getTemplate('ccard.html');	
+			$(".container").html('');	
+			getTemplate('card.html');	
 			
 		}	
 	});
