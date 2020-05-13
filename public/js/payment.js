@@ -187,7 +187,7 @@ function sendPayment(paymentObject) {
 		data: payString,
 		contentType: 'application/json; charset=UTF-8',
 		success: function(d) {
-			$('div').html('Payment is complete'); 	
+			$('div').html('Payment is completed'); 	
 		},
 		error: function(e) {
 			console.log(e);
